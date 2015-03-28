@@ -43,7 +43,7 @@ public class ShiroRealm extends AuthorizingRealm {
 		// setCredentialsMatcher(new Sha256CredentialsMatcher());
 
 		HashedCredentialsMatcher hcm = new HashedCredentialsMatcher();
-		hcm.setHashAlgorithmName(Sha256Hash.ALGORITHM_NAME);
+		hcm.setHashAlgorithmName(Sha256Hash.ALGORITHM_NAME);// 密码匹配规则,可以是MD5或者SHA-1，如果对密码安全有更高要求可以用SHA-256或者更高
 		setCredentialsMatcher(hcm);
 
 	}
@@ -54,7 +54,7 @@ public class ShiroRealm extends AuthorizingRealm {
 			AuthenticationToken authcToken) throws AuthenticationException {
 
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-		//TODO token中储存着输入的用户名和密码，然后与数据库中的进行比对;
+		// TODO token中储存着输入的用户名和密码，然后与数据库中的进行比对;
 		User param = new User();
 		param.setUsername(token.getUsername());
 		List<User> users = userDAO.getUser(param);

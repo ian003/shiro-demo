@@ -16,6 +16,7 @@ public class HomeController {
 		this.userService = userService;
 	}
 
+	/** 默认返回home.jsp */
 	@RequestMapping("/home.do")
 	public void viewHome(Model model) {
 		model.addAttribute("users", userService.getUser(null));

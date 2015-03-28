@@ -55,9 +55,9 @@
 		else we might need: -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-		<property name="loginUrl" value="/login.do" />
-		<property name="successUrl" value="/home.do" />
-		<property name="unauthorizedUrl" value="/unauthorized.do" />
+		<property name="loginUrl" value="/login.do" /><!-- 没有登录的用户请求需要登录的页面时自动跳转到登录页面，不是必须的属性，不输入地址的话会自动寻找项目web项目的根目录下的”/login.jsp”页面 -->
+		<property name="successUrl" value="/home.do" /><!-- 登录成功默认跳转页面，不配置则跳转至"/" -->
+		<property name="unauthorizedUrl" value="/unauthorized.do" /><!-- 没有权限默认跳转的页面 -->
 		<!-- The 'filters' property is usually not necessary unless performing 
 			an override, which we want to do here (make authc point to a PassthruAuthenticationFilter 
 			instead of the default FormAuthenticationFilter: -->

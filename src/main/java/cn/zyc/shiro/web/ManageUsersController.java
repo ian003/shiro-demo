@@ -18,6 +18,7 @@ public class ManageUsersController {
 		this.userService = userService;
 	}
 
+	/** 默认返回manageUser.jsp */
 	@RequestMapping("/manageUser.do")
 	@RequiresPermissions("user:manage")
 	public void manageUsers(Model model) {

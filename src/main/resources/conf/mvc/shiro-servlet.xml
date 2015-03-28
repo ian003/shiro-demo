@@ -15,6 +15,8 @@
 	<context:component-scan base-package="cn.zyc.shiro.web" />
 
 	<!-- Required for security annotations to work in this servlet -->
+	<!-- 开启Shiro注解的Spring配置方式的beans,在lifecycleBeanPostProcessor之后运行 -->
+	<!-- 在与springMVC整合时必须放在springMVC的配置文件中 -->
 	<bean
 		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
 	<bean
@@ -40,7 +42,7 @@
 	</bean>
 
 
-	<!-- shiro错误拦截器，统一处理 -->
+	<!-- Shiro在注解模式下，登录失败，与没有权限均是通过抛出异常。并且默认并没有去处理或者捕获这些异常。在springMVC下需要配置捕获相应异常来通知用户信息，如果不配置异常会抛出到页面 -->
 	<bean
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
