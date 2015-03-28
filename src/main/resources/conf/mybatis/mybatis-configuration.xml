@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="User" type="cn.zyc.shiro.model.User" />
+		<typeAlias alias="Role" type="cn.zyc.shiro.model.Role" />
+		<typeAlias alias="Permission" type="cn.zyc.shiro.model.Permission" />
+		<typeAlias alias="Result" type="cn.zyc.shiro.model.Result" />
+	</typeAliases>
+	<mappers>
+		<mapper resource="cn/zyc/shiro/mapper/UserMapper.xml" />
+		<mapper resource="cn/zyc/shiro/mapper/RoleMapper.xml" />
+		<mapper resource="cn/zyc/shiro/mapper/UserRoleMapper.xml" />
+		<mapper resource="cn/zyc/shiro/mapper/RolePermissionMapper.xml" />
+	</mappers>
+</configuration>

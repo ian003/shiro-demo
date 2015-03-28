@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.zyc.shiro.dao.UserDAO">
+
+	<select id="getUser" resultType="User" parameterType="User">
+		SELECT * FROM users WHERE 1=1
+		<if test="id!=null and id!=''">
+			AND id = ${id}
+		</if>
+		<if test="username!=null and username!=''">
+			AND username = #{username}
+		</if>
+	</select>
+
+	<insert id="insert" parameterType="User">
+		<selectKey resultType="java.lang.Long" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO users (username, password) VALUES( #{username},
+		#{password})
+	</insert>
+
+	<select id="userInfo" resultType="Result" parameterType="User">
+		SELECT
+		u.id AS 'uid',
+		r.id AS 'rid',
+		u.username AS 'username',
+		u.`password` AS
+		'password',
+		r.`name` AS 'roleName',
+		rp.permission AS 'permissionName'
+		FROM
+		users u
+		JOIN users_roles ur ON u.id = ur.uid
+		JOIN roles r ON ur.rid
+		= r.id
+		JOIN roles_permissions rp ON rp.rid = r.id
+		WHERE
+		u.id = ${id}
+	</select>
+
+	<select id="loadInfo" resultMap="userMap" parameterType="java.lang.Long">
+		<!-- SELECT u.id AS 'id', r.id AS 'rid', u.username AS 'username', u.`password` 
+			AS 'password', r.`name` AS 'roleName' FROM users u JOIN users_roles ur ON 
+			u.id = ur.uid JOIN roles r ON ur.rid = r.id WHERE u.id = ${id} -->
+
+		SELECT
+		u.id AS 'id',
+		r.id AS 'rid',
+		u.username AS 'username',
+		u.`password` AS 'password',
+		r.`name` AS 'roleName',
+		rp.permission AS
+		'permissionName'
+		FROM
+		users u
+		JOIN users_roles ur ON u.id = ur.uid
+		JOIN
+		roles r ON ur.rid = r.id
+		JOIN roles_permissions rp ON rp.rid = r.id
+		WHERE
+		u.id = ${id}
+	</select>
+
+	<resultMap id="userMap" type="User">
+		<id property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<!-- 进行 多表关联插叙，先关联user和role -->
+		<collection property="roles" ofType="Role">
+			<id property="id" column="rid" />
+			<result property="name" column="roleName" />
+			<collection property="permissions" ofType="java.lang.String">
+				<!-- <id property="id" column="rid" /> -->
+				<!-- <id property="name" column="permissionName" /> -->
+				<result property="permissions" column="permissionName" />
+			</collection>
+		</collection>
+
+	</resultMap>
+
+</mapper>

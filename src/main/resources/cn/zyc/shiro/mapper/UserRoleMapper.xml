@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.zyc.shiro.dao.UserRoleDAO">
+
+	<select id="queryRoleByUid" resultType="Role" parameterType="java.lang.Long">
+		SELECT
+		r.id,
+		ur.uid,
+		r.`name`
+		FROM
+		users_roles ur
+		JOIN roles r ON ur.rid =
+		r.id
+		WHERE
+		ur.uid = ${uid};
+	</select>
+
+
+
+</mapper>

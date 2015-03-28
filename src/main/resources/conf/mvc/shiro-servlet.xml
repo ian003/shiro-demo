@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+	<!-- Enable annotation component scanning and autowiring of web package -->
+	<context:annotation-config />
+	<context:component-scan base-package="cn.zyc.shiro.web" />
+
+	<!-- Required for security annotations to work in this servlet -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor" />
+
+
+	<!-- Enable annotation-based controllers using @Controller annotations -->
+	<bean id="annotationUrlMapping"
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="interceptors" ref="currentUserInterceptor" />
+	</bean>
+
+	<bean id="annotationMethodHandlerAdapter"
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+	<!-- All views are JSPs loaded from /WEB-INF/jsp -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+
+	<!-- shiro错误拦截器，统一处理 -->
+	<bean
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.apache.shiro.authz.UnauthenticatedException">
+					/unauthenticated.do
+				</prop>
+				<prop key="org.apache.shiro.authz.UnauthorizedException">
+					/unauthorized.do
+				</prop>
+			</props>
+		</property>
+	</bean>
+</beans>
